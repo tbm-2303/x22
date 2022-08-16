@@ -10,6 +10,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 @Table(name = "users")
+@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User")
 public class User implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -18,6 +19,7 @@ public class User implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
+
   private int id;
 
   @Basic(optional = false)

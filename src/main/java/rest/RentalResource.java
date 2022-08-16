@@ -24,18 +24,26 @@ public class RentalResource {
     private static final HouseFacade houseFacade = HouseFacade.getHouseFacade(EMF);
 
     @GET
-    @Path("/rentals/{userId}")
+    @Path("/getAllHouses")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllHouses() {
+        List<HouseDTO> houseDTOS = rentalFacade.getAllHouses();
+        return Response.ok().entity(GSON.toJson(houseDTOS)).build();
+    }
+    //(us1)
+    @GET
+    @Path("/getAllRentals/{userId}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getRentalsFromUser(@PathParam("userId") int userId) {
-        List<RentalDTO> rentalDTOS = rentalFacade.getByUserId(userId);;
+        List<RentalDTO> rentalDTOS = rentalFacade.getAllRentalsFromUser(userId);;
         return Response.ok().entity(GSON.toJson(rentalDTOS)).build();
     }
-
+    //(us2)
     @GET
-    @Path("/house/{rentalId}")
+    @Path("/getHouse/{rentalId}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getHouseByRentalID(@PathParam("rentalId") int rentalId) {
-        HouseDTO houseDTO = houseFacade.getHouseFromRentalId(rentalId);
+        HouseDTO houseDTO = rentalFacade.getHouseFromRentalId(rentalId);
         return Response.ok().entity(GSON.toJson(houseDTO)).build();
     }
 }

@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.HouseDTO;
 import entities.House;
 import entities.Rental;
 import entities.Tenant;
@@ -62,11 +63,15 @@ class RentalFacadeTest {
         rental2.addTenant(tenant2);
         rental3.addTenant(tenant3);
         rental3.addTenant(tenant1);
+
         em.getTransaction().begin();
+        em.createNamedQuery("Role.deleteAllRows").executeUpdate();
+        em.createNamedQuery("User.deleteAllRows").executeUpdate();
         em.createNamedQuery("Tenant.deleteAllRows").executeUpdate();
         em.createNamedQuery("House.deleteAllRows").executeUpdate();
         em.createNamedQuery("Rental.deleteAllRows").executeUpdate();
         em.getTransaction().commit();
+
         try {
             em.getTransaction().begin();
             em.persist(house1);
@@ -89,7 +94,15 @@ class RentalFacadeTest {
     @Test
     void getAllRentalsFromUserTest() {
         System.out.println("Get all rental agreements from a user");
-        assertEquals(2, facade.getByUserId(tenant1.getUser().getId()).size());
+        assertEquals(2, facade.getAllRentalsFromUser(tenant1.getUser().getId()).size());
+    }
+
+
+    @Test
+    void getHouseByRentalIDTest(){
+        System.out.println("Get house by rental id test!");
+        HouseDTO houseDTO = new HouseDTO(house1);
+        assertEquals(houseDTO,facade.getHouseFromRentalId(rental1.getId()));
     }
 
 }
