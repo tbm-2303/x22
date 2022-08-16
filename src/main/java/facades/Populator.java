@@ -32,7 +32,7 @@ public class Populator {
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
     }
 
-
+// mine relationer virker
     public static void populate3(){
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
@@ -52,16 +52,16 @@ public class Populator {
         Role adminRole = new Role("admin");
 
 //relations:
-// add roles to user
+// add roles to user (bi, 12M/M21)
         user1.setRole(userRole);
         user2.setRole(userRole);
         user3.setRole(userRole);
         admin.setRole(adminRole);
-// add user to tenant
+// add user to tenant (bi, 121)
         tenant1.setUser(user1);
         tenant2.setUser(user2);
         tenant3.setUser(user3);
-//add rental to house/add house to rental (bi, 12M)
+//add rental to house/add house to rental (bi, 12M/M21)
         house1.addRental(rental1);
         house1.addRental(rental2);
         house2.addRental(rental3);
