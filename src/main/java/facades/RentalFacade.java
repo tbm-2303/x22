@@ -62,6 +62,10 @@ public class RentalFacade {
 
 
 
+
+
+
+
     public List<HouseDTO> getAllHouses() {
         EntityManager em = getEntityManager();
 
