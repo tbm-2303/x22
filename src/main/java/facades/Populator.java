@@ -5,7 +5,6 @@
  */
 package facades;
 
-import dtos.DriverDTO;
 import dtos.RenameMeDTO;
 import entities.Driver;
 import entities.RenameMe;
