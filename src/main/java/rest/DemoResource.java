@@ -134,6 +134,7 @@ public class DemoResource {
             em.persist(user1);
             em.persist(user2);
             em.persist(user3);
+            em.persist(admin);
             em.getTransaction().commit();
             return "ok! setup";
         } finally {
