@@ -43,7 +43,7 @@ class RentalFacadeTest {
         user3 = new User("user3", "test123");
         rental1 = new Rental("01/08/2022", "01/01/2023", 85000, 10000, "boss");
         rental2 = new Rental("01/08/2022", "01/01/2023", 85000, 10000, "boss");
-        rental3 = new Rental("01/08/2022", "01/01/2023", 85000, 10009, "boss ");
+        rental3 = new Rental("01/08/2022", "01/01/2023", 85000, 10009, "boss");
         tenant1 = new Tenant("jim jimsen", "23232323", "Selvstændig");
         tenant2 = new Tenant("anders andersen", "323233232", "diskodanser");
         tenant3 = new Tenant("kim kimsen", "22222", "astronaut");
@@ -100,7 +100,7 @@ class RentalFacadeTest {
 
     @Test
     void getHouseByRentalIDTest(){
-        System.out.println("Get house by rental id test!");
+        System.out.println("Get house by rental id");
         HouseDTO houseDTO = new HouseDTO(house1);
         assertEquals(houseDTO,facade.getHouseFromRentalId(rental1.getId()));
     }
