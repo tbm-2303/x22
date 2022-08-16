@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.HouseDTO;
 import dtos.RentalDTO;
 
 import javax.persistence.EntityManager;
@@ -36,5 +37,7 @@ public class RentalFacade {
             em.close();
         }
     }
+
+
 
 }

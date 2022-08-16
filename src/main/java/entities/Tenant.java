@@ -91,6 +91,8 @@ public class Tenant {
         }
     }
 
+
+// this takes care of the relation in both directions! (bi, 121)
     public void setUser(User user) {
         this.user = user;
         if(user.getTenant() != this){

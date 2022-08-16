@@ -88,12 +88,8 @@ public class Rental {
     public void setTenants(Set<Tenant> tenants) {
         this.tenants = tenants;
     }
-    public House getHouse() {
-        return house;
-    }
-    public void setHouse(House house) {
-        this.house = house;
-    }
+    public House getHouse() { return house; }
+    public void setHouse(House house) { this.house = house; }
 
     public void addTenant(Tenant tenant){
         this.tenants.add(tenant);
@@ -101,7 +97,6 @@ public class Rental {
             tenant.getRentals().add(this);
         }
     }
-
     public void removeTenant(Tenant tenant){
         this.tenants.remove(tenant);
         if(tenant.getRentals().contains(this)){

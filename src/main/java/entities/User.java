@@ -79,7 +79,7 @@ public class User implements Serializable {
     return tenant;
   }
 
-
+// (bi, 121)
   public void setTenant(Tenant tenant) {
     this.tenant = tenant;
     if(tenant.getUser() != this){
