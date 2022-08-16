@@ -6,7 +6,7 @@
 package facades;
 
 import dtos.RenameMeDTO;
-import entities.Driver;
+
 import entities.RenameMe;
 
 import javax.persistence.EntityManager;
@@ -32,18 +32,14 @@ public class Populator {
     }
     public static void populate2(){
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
-        CarFacade carFacade = CarFacade.getCarFacadeExample(emf);
-        carFacade.addDriverToCar(1,2);
     }
 
 
     public static void populate3(){
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
-
         EntityManager em = emf.createEntityManager();
 
         User user = new User("user", "test123");
-        User driver = new User("driver", "test123");
         User admin = new User("admin", "test123");
 
         if(admin.getUserPass().equals("test")||user.getUserPass().equals("test"))
@@ -55,12 +51,10 @@ public class Populator {
         Role adminRole = new Role("admin");
         user.setRole(userRole);
         admin.setRole(adminRole);
-        driver.setRole(driverRole);
         em.persist(userRole);
         em.persist(adminRole);
         em.persist(driverRole);
         em.persist(user);
-        em.persist(driver);
         em.persist(admin);
         em.getTransaction().commit();
         System.out.println("PW: " + user.getUserPass());
