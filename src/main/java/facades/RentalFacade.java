@@ -59,7 +59,24 @@ public class RentalFacade {
     }
 //(us3)
 
+    public List<TenantDTO> getAllTenantsFromHouse(int houseID)  {
+        EntityManager em = emf.createEntityManager();
 
+        try {
+            TypedQuery<Rental> query = em.createQuery("SELECT r FROM Rental r where r.house.id=:houseID", Rental.class);
+            query.setParameter("houseID", houseID);
+            List<Rental> rentals = query.getResultList();
+            int tempid = 0;
+            for (Rental rental : rentals) {
+                tempid = rental.getId();
+            }
+            TypedQuery<TenantDTO> tq = em.createQuery("SELECT new dtos.TenantDTO(t) FROM Tenant t join Rental r where t.rentals = r and r.id=:rentalID", TenantDTO.class);
+            tq.setParameter("rentalID", tempid);
+            return tq.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 
 
 

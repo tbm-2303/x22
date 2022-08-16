@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.HouseDTO;
 import dtos.RentalDTO;
+import dtos.TenantDTO;
 import errorhandling.UsernameTakenException;
 import facades.HouseFacade;
 import facades.RentalFacade;
@@ -45,5 +46,14 @@ public class RentalResource {
     public Response getHouseByRentalID(@PathParam("rentalId") int rentalId) {
         HouseDTO houseDTO = rentalFacade.getHouseFromRentalId(rentalId);
         return Response.ok().entity(GSON.toJson(houseDTO)).build();
+    }
+
+    @GET
+    @Path("/getTenants/{houseID}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getCurrentTenants(@PathParam("houseID") int houseID)  {
+        List<TenantDTO> tenantDTOs = rentalFacade.getAllTenantsFromHouse(houseID);
+        return Response.ok().entity(GSON.toJson(tenantDTOs)).build();
     }
 }

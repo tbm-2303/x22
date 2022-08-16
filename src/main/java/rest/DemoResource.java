@@ -87,9 +87,9 @@ public class DemoResource {
     public String setup2() {
         EntityManager em = EMF.createEntityManager();
         try {
-            User user1 = new User("user", "test123");
+            User user1 = new User("user1", "test123");
             User user2 = new User("user2", "test123");
-            User user3 = new User("user2", "test123");
+            User user3 = new User("user3", "test123");
             User admin = new User("admin", "test123");
             Rental rental1 = new Rental("01/08/2022", "01/01/2023", 85000, 10000, "boss");
             Rental rental2 = new Rental("01/08/2022", "01/01/2023", 85000, 10000, "boss");
