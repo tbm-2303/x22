@@ -5,10 +5,7 @@ import entities.House;
 import entities.Rental;
 import entities.Tenant;
 import entities.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
@@ -94,7 +91,7 @@ class RentalFacadeTest {
         assertEquals(2, facade.getAllRentalsFromUser(tenant1.getUser().getId()).size());
     }
 
-
+    @Disabled
     @Test
     void getHouseByRentalIDTest(){
         System.out.println("Get house by rental id");

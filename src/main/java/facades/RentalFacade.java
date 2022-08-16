@@ -52,8 +52,7 @@ public class RentalFacade {
             TypedQuery<HouseDTO> query = em.createQuery("SELECT new dtos.HouseDTO(h) FROM House h join Rental r where h.rentals = r and r.id=:rentalId", HouseDTO.class);
             query.setParameter("rentalId", rentalId);
             query.setMaxResults(1);
-            HouseDTO houseDTO = query.getSingleResult();
-            return houseDTO;
+            return query.getSingleResult();
         } finally {
             em.close();
         }
