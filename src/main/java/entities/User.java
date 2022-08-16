@@ -35,19 +35,18 @@ public class User implements Serializable {
   @JoinColumn(name = "role_name")
   private Role role;
 
-
+  @OneToOne()
+  private Tenant tenant;
 
 
   public User() {}
 
-
-   public boolean verifyPassword(String pw){
+  public boolean verifyPassword(String pw){
         return BCrypt.checkpw(pw, userPass);
     }
 
   public User(String userName, String userPass) {
     this.userName = userName;
-
     this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
   }
 
@@ -55,33 +54,39 @@ public class User implements Serializable {
   public String getUserName() {
     return userName;
   }
-
   public void setUserName(String userName) {
     this.userName = userName;
   }
-
   public String getUserPass() {
     return this.userPass;
   }
-
   public void setUserPass(String userPass) {
     this.userPass = userPass;
   }
-
-
   public Role getRole() {
     return role;
   }
-
   public void setRole(Role role) {
     this.role = role;
   }
-
   public int getId() {
     return id;
   }
-
   public void setId(int id) {
     this.id = id;
+  }
+  public Tenant getTenant() {
+    return tenant;
+  }
+
+
+  public void setTenant(Tenant tenant) {
+    this.tenant = tenant;
+    if(tenant.getUser() != this){
+      tenant.setUser(this);
+    }
+  }
+  public void removeTenant(){
+    this.tenant = null;
   }
 }
