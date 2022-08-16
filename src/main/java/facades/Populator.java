@@ -7,13 +7,11 @@ package facades;
 
 import dtos.RenameMeDTO;
 
-import entities.RenameMe;
+import entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import entities.Role;
-import entities.User;
 import utils.EMF_Creator;
 
 /**
@@ -38,29 +36,60 @@ public class Populator {
     public static void populate3(){
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         EntityManager em = emf.createEntityManager();
-
-        User user = new User("user", "test123");
+        User user1 = new User("user", "test123");
+        User user2 = new User("user2", "test123");
+        User user3 = new User("user2", "test123");
         User admin = new User("admin", "test123");
+        Rental rental1 = new Rental("01/08/2022", "01/01/2023", 85000, 10000, "boss");
+        Rental rental2 = new Rental("01/08/2022", "01/01/2023", 85000, 10000, "boss");
+        Rental rental3 = new Rental("01/08/2022", "01/01/2023", 85000, 10009, "boss ");
+        Tenant tenant1 = new Tenant("jim jimsen", "23232323", "Selvstændig");
+        Tenant tenant2 = new Tenant("anders andersen", "323233232", "diskodanser");
+        Tenant tenant3 = new Tenant("kim kimsen", "22222", "astronaut");
+        House house1 = new House("blichersvej 2", "Helsingør", 2);
+        House house2 = new House("esrumvej 2", "snekkersten", 3);
+        Role userRole = new Role("user");
+        Role adminRole = new Role("admin");
 
-        if(admin.getUserPass().equals("test")||user.getUserPass().equals("test"))
-            throw new UnsupportedOperationException("You have not changed the passwords");
+//relations:
+// add roles to user
+        user1.setRole(userRole);
+        user2.setRole(userRole);
+        user3.setRole(userRole);
+        admin.setRole(adminRole);
+// add user to tenant
+        tenant1.setUser(user1);
+        tenant2.setUser(user2);
+        tenant3.setUser(user3);
+//add rental to house/add house to rental (bi, 12M)
+        house1.addRental(rental1);
+        house1.addRental(rental2);
+        house2.addRental(rental3);
+//add tenant to rental
+        rental1.addTenant(tenant1);
+        rental2.addTenant(tenant2);
+        rental3.addTenant(tenant3);
+        rental3.addTenant(tenant1);
+
+
 
         em.getTransaction().begin();
-        Role userRole = new Role("user");
-        Role driverRole = new Role("driver");
-        Role adminRole = new Role("admin");
-        user.setRole(userRole);
-        admin.setRole(adminRole);
         em.persist(userRole);
         em.persist(adminRole);
-        em.persist(driverRole);
-        em.persist(user);
-        em.persist(admin);
+        em.persist(house1);
+        em.persist(house2);
+        em.persist(rental1);
+        em.persist(rental2);
+        em.persist(rental3);
+        em.persist(tenant1);
+        em.persist(tenant2);
+        em.persist(tenant3);
+        em.persist(user1);
+        em.persist(user2);
+        em.persist(user3);
+
         em.getTransaction().commit();
-        System.out.println("PW: " + user.getUserPass());
-        System.out.println("Testing user with OK password: " + user.verifyPassword("test123"));
-        System.out.println("Testing user with wrong password: " + user.verifyPassword("test1"));
-        System.out.println("Created TEST Users");
+
 
     }
     

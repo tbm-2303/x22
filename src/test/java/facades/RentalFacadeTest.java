@@ -37,18 +37,18 @@ class RentalFacadeTest {
     @BeforeEach
     void setUp() {
         EntityManager em = emf.createEntityManager();
-
         user1 = new User("user1", "test123");
         user2 = new User("user2", "test123");
         user3 = new User("user3", "test123");
-        tenant2 = new Tenant("anders andersen", "323233232", "diskodanser");
-        tenant3 = new Tenant("kim kimsen", "22222", "astronaut");
         rental1 = new Rental("01/08/2022", "01/01/2023", 85000, 10000, "boss");
         rental2 = new Rental("01/08/2022", "01/01/2023", 85000, 10000, "boss");
         rental3 = new Rental("01/08/2022", "01/01/2023", 85000, 10009, "boss ");
+        tenant1 = new Tenant("jim jimsen", "23232323", "Selvstændig");
+        tenant2 = new Tenant("anders andersen", "323233232", "diskodanser");
+        tenant3 = new Tenant("kim kimsen", "22222", "astronaut");
         house1 = new House("blichersvej 2", "Helsingør", 2);
         house2 = new House("esrumvej 2", "snekkersten", 3);
-        tenant1 = new Tenant("jim jimsen", "23232323", "Selvstændig");
+
 //add user to tenant
         tenant1.setUser(user1);
         tenant2.setUser(user2);
