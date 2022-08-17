@@ -25,7 +25,18 @@ public class HouseFacade {
         return emf.createEntityManager();
     }
 
-
+    public HouseDTO createHouse(HouseDTO houseDTO) {
+        EntityManager em = getEntityManager();
+        House house = new House(houseDTO.getAddress(), houseDTO.getCity(), houseDTO.getRooms());
+        try{
+            em.getTransaction().begin();
+            em.persist(house);
+            em.getTransaction().commit();
+            return new HouseDTO(house);
+        } finally {
+            em.close();
+        }
+    }
 
 
 }

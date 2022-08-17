@@ -14,6 +14,7 @@ public class RentalDTO {
     private double deposit;
     private String contactPerson;
     private int houseId;
+    private int tenantId;
 
 
     public RentalDTO(Rental rental) {
@@ -25,7 +26,7 @@ public class RentalDTO {
         this.contactPerson = rental.getContactPerson();
     }
 //need it to create
-    public RentalDTO(String startDate, String endDate, double priceAnnual, double deposit, String contactPerson, int houseId) {
+    public RentalDTO(String startDate, String endDate, double priceAnnual, double deposit, String contactPerson, int houseId,int tenantID) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.priceAnnual = priceAnnual;
@@ -33,6 +34,9 @@ public class RentalDTO {
         this.contactPerson = contactPerson;
         if(houseId != 0 ){
             this.houseId = houseId;
+        }
+        if(tenantId != 0){
+            this.tenantId = tenantID;
         }
 
     }
@@ -60,5 +64,11 @@ public class RentalDTO {
     public String getContactPerson() { return contactPerson; }
     public void setContactPerson(String contactPerson) { this.contactPerson = contactPerson; }
 
+    public int getTenantId() {
+        return tenantId;
+    }
 
+    public void setTenantId(int tenantId) {
+        this.tenantId = tenantId;
+    }
 }

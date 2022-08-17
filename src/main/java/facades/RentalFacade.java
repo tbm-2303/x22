@@ -3,8 +3,10 @@ package facades;
 import dtos.HouseDTO;
 import dtos.RentalDTO;
 import dtos.TenantDTO;
+import edu.emory.mathcs.backport.java.util.Arrays;
 import entities.House;
 import entities.Rental;
+import entities.Tenant;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -66,6 +68,7 @@ public class RentalFacade {
             TypedQuery<Rental> query = em.createQuery("SELECT r FROM Rental r where r.house.id=:houseID", Rental.class);
             query.setParameter("houseID", houseID);
             List<Rental> rentals = query.getResultList();
+
             int tempid = 0;
             for (Rental rental : rentals) {
                 tempid = rental.getId();
@@ -97,6 +100,102 @@ public class RentalFacade {
         EntityManager em = getEntityManager();
         try{
             return new HouseDTO(em.find(House.class,houseID));
+        } finally {
+            em.close();
+        }
+    }
+
+
+
+    public RentalDTO deleteRental(int rentalID) {
+        EntityManager em = getEntityManager();
+        Rental rental = em.find(Rental.class, rentalID);
+        try {
+            em.getTransaction().begin();
+            em.remove(rental);
+            em.getTransaction().commit();
+            return new RentalDTO(rental);
+        } finally {
+            em.close();
+        }
+    }
+
+
+    public RentalDTO createRental(RentalDTO rentalDTO)  {
+        EntityManager em = getEntityManager();
+        Rental newRental = new Rental(rentalDTO.getStartDate(), rentalDTO.getEndDate(), rentalDTO.getPriceAnnual(), rentalDTO.getDeposit(), rentalDTO.getContactPerson());
+        try{
+            House house = em.find(House.class,rentalDTO.getHouseId());
+            Tenant tenant = em.find(Tenant.class,rentalDTO.getTenantId());
+            newRental.setHouse(house);
+            newRental.addTenant(tenant);
+            em.getTransaction().begin();
+            em.persist(newRental);
+            em.getTransaction().commit();
+            return new RentalDTO(newRental);
+        } finally {
+            em.close();
+        }
+    }
+    public RentalDTO updateRentalInfo(RentalDTO rentalDTO) {
+        EntityManager em = getEntityManager();
+        Rental rental = em.find(Rental.class, rentalDTO.getId());
+        rental.setStartDate(rentalDTO.getStartDate());
+        rental.setEndDate(rentalDTO.getEndDate());
+        rental.setPriceAnnual(rentalDTO.getPriceAnnual());
+        rental.setContactPerson(rentalDTO.getContactPerson());
+
+        rental.setDeposit(rentalDTO.getDeposit());
+        try {
+            em.getTransaction().begin();
+            em.merge(rental);
+            em.getTransaction().commit();
+            return new RentalDTO(rental);
+        } finally {
+            em.close();
+        }
+    }
+
+    public RentalDTO setHouse(int rentalID, int houseID) {
+        EntityManager em = getEntityManager();
+        Rental rental = em.find(Rental.class, rentalID);
+        House house = em.find(House.class, houseID);
+        house.addRental(rental);
+        try {
+            em.getTransaction().begin();
+            em.merge(house);
+            em.getTransaction().commit();
+            return new RentalDTO(rental);
+        } finally {
+            em.close();
+        }
+    }
+
+    public RentalDTO addTenantToRental(int rentalID, int tenantID) {
+        EntityManager em = getEntityManager();
+        Rental rental = em.find(Rental.class, rentalID);
+        Tenant tenant = em.find(Tenant.class, tenantID);
+        rental.addTenant(tenant);
+        try {
+            em.getTransaction().begin();
+            em.merge(rental);
+            em.getTransaction().commit();
+            return new RentalDTO(rental);
+        } finally {
+            em.close();
+        }
+    }
+
+    public RentalDTO removeTenantFromRental(int rentalID, int tenantID) {
+        EntityManager em = getEntityManager();
+        Rental rental = em.find(Rental.class, rentalID);
+        Tenant tenant = em.find(Tenant.class, tenantID);
+        rental.removeTenant(tenant);
+        try {
+            em.getTransaction().begin();
+            em.merge(rental);
+            em.getTransaction().commit();
+            return new RentalDTO(rental);
         } finally {
             em.close();
         }

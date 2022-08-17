@@ -56,4 +56,68 @@ public class RentalResource {
         List<TenantDTO> tenantDTOs = rentalFacade.getAllTenantsFromHouse(houseID);
         return Response.ok().entity(GSON.toJson(tenantDTOs)).build();
     }
+
+    @POST
+    @Path("/createRental")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response createRental(String content)  {
+        RentalDTO rentalDTO = GSON.fromJson(content, RentalDTO.class);
+        RentalDTO newRentalDTO = rentalFacade.createRental(rentalDTO);
+        return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
+    }
+
+    @PUT
+    @Path("/updateinfo")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response updateRentalInfo(String content){
+        RentalDTO rentalDTO = GSON.fromJson(content, RentalDTO.class);
+        RentalDTO newRentalDTO = rentalFacade.updateRentalInfo(rentalDTO);
+        return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
+    }
+
+
+    @PUT
+    @Path("/changehouse/{rentalId}/{houseId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response setHouse(@PathParam("rentalId") int rentalId,@PathParam("houseId") int houseId){
+        RentalDTO newRentalDTO = rentalFacade.setHouse(rentalId,houseId);
+        return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
+    }
+
+    @PUT
+    @Path("/addtenant/{rentalId}/{tenantId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response AddTenantToRental(@PathParam("rentalId") int rentalId,@PathParam("tenantId") int tenantId){
+        RentalDTO newRentalDTO = rentalFacade.addTenantToRental(rentalId,tenantId);
+        return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
+    }
+
+    @PUT
+    @Path("/removetenant/{rentalId}/{tenantId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response removeTenantFromRental(@PathParam("rentalId") int rentalId,@PathParam("tenantId") int tenantId){
+        RentalDTO newRentalDTO = rentalFacade.removeTenantFromRental(rentalId,tenantId);
+        return Response.ok().entity(GSON.toJson(newRentalDTO)).build();
+    }
+
+    @DELETE
+    @Path("/delete/{rentalID}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @RolesAllowed("admin")
+    public Response deleteRentalByID(@PathParam("rentalID") int rentalID) {
+        RentalDTO deleted = rentalFacade.deleteRental(rentalID);
+        return Response.ok().entity(GSON.toJson(deleted)).build();
+    }
+
 }
