@@ -82,7 +82,17 @@ public class RentalFacade {
     }
 
 
+    public List<RentalDTO> getAllRentals() {
+        EntityManager em = emf.createEntityManager();
 
+        try {
+            TypedQuery<RentalDTO> query = em.createQuery("SELECT new dtos.RentalDTO(r) FROM Rental r", RentalDTO.class);
+            List<RentalDTO> rentals = query.getResultList();
+            return rentals;
+        } finally {
+            em.close();
+        }
+    }
 
 
     public List<HouseDTO> getAllHouses() {

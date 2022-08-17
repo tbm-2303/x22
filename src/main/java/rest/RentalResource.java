@@ -25,6 +25,14 @@ public class RentalResource {
     private static final HouseFacade houseFacade = HouseFacade.getHouseFacade(EMF);
 
     @GET
+    @Path("/getAll")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllRentals() {
+        List<RentalDTO> rentalDTOS = rentalFacade.getAllRentals();
+        return Response.ok().entity(GSON.toJson(rentalDTOS)).build();
+    }
+    @GET
     @Path("/getAllHouses")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllHouses() {
