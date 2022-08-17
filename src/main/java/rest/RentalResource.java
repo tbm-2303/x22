@@ -8,6 +8,7 @@ import dtos.TenantDTO;
 import errorhandling.UsernameTakenException;
 import facades.HouseFacade;
 import facades.RentalFacade;
+import facades.UserFacade;
 import utils.EMF_Creator;
 
 import javax.annotation.security.RolesAllowed;
@@ -23,7 +24,7 @@ public class RentalResource {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final RentalFacade rentalFacade =  RentalFacade.getFacadeExample(EMF);
     private static final HouseFacade houseFacade = HouseFacade.getHouseFacade(EMF);
-
+    private static final UserFacade userFacade = UserFacade.getUserFacade(EMF);
     @GET
     @Path("/getAll")
     @RolesAllowed("admin")
@@ -128,4 +129,12 @@ public class RentalResource {
         return Response.ok().entity(GSON.toJson(deleted)).build();
     }
 
+    @GET
+    @Path("/getTenants/{rentalID}")
+    @RolesAllowed("admin")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getTenantsByRentalID(@PathParam("rentalID") int rentalID) {
+        List<TenantDTO> tenants = userFacade.getTenantsByRentalID(rentalID);
+        return Response.ok().entity(GSON.toJson(tenants)).build();
+    }
 }

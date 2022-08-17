@@ -12,6 +12,8 @@ import javax.persistence.TypedQuery;
 import errorhandling.UsernameTakenException;
 import security.errorhandling.AuthenticationException;
 
+import java.util.List;
+
 /**
  * @author lam@cphbusiness.dk
  */
@@ -92,6 +94,17 @@ public class UserFacade {
             em.close();
         }
         return true;
+    }
+    public List<TenantDTO> getTenantsByRentalID(int rentalID) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<TenantDTO> query = em.createQuery("SELECT new dtos.TenantDTO(t) FROM Tenant t join Rental r where t.rentals = r and r.id =:rentalID", TenantDTO.class);
+            query.setParameter("rentalID",rentalID);
+            List<TenantDTO> tenants = query.getResultList();
+            return tenants;
+        } finally {
+            em.close();
+        }
     }
 
 }
